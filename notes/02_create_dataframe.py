@@ -50,3 +50,28 @@ df.to_csv('new_file.csv')          # save DataFrame to CSV
 print(df.head())      # first 5 rows (default)
 print(df.head(10))    # first 10 rows
 print(df.info())      # column names, data types, non-null counts
+print(df.describe())  # summary stats for numeric columns
+
+# ---- SELECTING COLUMNS ----
+# Single column -> returns a Series
+clinic_north = df['clinic_north']   # dictionary style (always works)
+clinic_north = df.clinic_north      # dot style (only if no spaces in name)
+
+# Multiple columns -> returns a DataFrame
+# Note the double brackets [[]]
+clinic_north_south = df[['clinic_north', 'clinic_south']]
+
+# ---- SELECTING ROWS ----
+# Single row by index position -> returns a Series
+march = df.iloc[2]        # zero-indexed, so row 2 = 3rd row
+
+# Multiple rows -> returns a DataFrame
+df.iloc[3:6]    # rows 3, 4, 5 (not including 6)
+df.iloc[:4]     # rows 0, 1, 2, 3
+df.iloc[-3:]    # last 3 rows
+
+# Same slicing rules as Python lists!
+
+# ---- SERIES vs DATAFRAME ----
+# Single column or row -> Series
+# Multiple columns or rows -> DataFrame
