@@ -75,3 +75,37 @@ df.iloc[-3:]    # last 3 rows
 # ---- SERIES vs DATAFRAME ----
 # Single column or row -> Series
 # Multiple columns or rows -> DataFrame
+
+
+# ---- SELECTING ROWS WITH LOGIC ----
+# Single condition
+january = df[df.month == 'January']      # equal
+df[df.age > 30]                          # greater than
+df[df.age < 30]                          # less than
+df[df.name != 'Clara Oswald']            # not equal
+
+# Multiple conditions - each must be in parentheses!
+# | means OR, & means AND
+march_april = df[(df.month == 'March') | (df.month == 'April')]
+
+# isin() - cleaner than chaining multiple OR conditions
+# equivalent to SQL: WHERE month IN ('January', 'February', 'March')
+january_february_march = df[df.month.isin(['January', 'February', 'March'])]
+
+# ---- RESETTING INDICES ----
+# After filtering, indices are non-consecutive (e.g. 1, 3, 5)
+# df2 output:
+#       month  clinic_east  clinic_north  clinic_south  clinic_west
+# 1  February           51            45           145           45
+# 3     April           80            80            54          180
+# 5      June          112           109            79          129
+
+df3 = df2.reset_index(drop=True)   # returns NEW DataFrame, old index dropped
+# df3 output:
+#       month  clinic_east  clinic_north  clinic_south  clinic_west
+# 0  February           51            45           145           45
+# 1     April           80            80            54          180
+# 2      June          112           109            79          129
+
+df2.reset_index(drop=True, inplace=True)  # modifies EXISTING DataFrame
+
