@@ -143,3 +143,65 @@ df2['Domain'] = df2['Email Provider'].apply(lambda x: x.split('.')[0])
 # 'gmail.com'   -> 'gmail'
 # 'yahoo.com'   -> 'yahoo'
 # 'hotmail.com' -> 'hotmail'
+
+# ------------------------------------------------------------
+# 8. Applying a Lambda to a Row (axis=1)
+# ------------------------------------------------------------
+# So far we applied lambdas to a single column — one value at a time.
+# Sometimes we need to look at MULTIPLE columns in the same row.
+# For that, we apply to the whole DataFrame with axis=1.
+# The lambda receives an entire row, and we access values with row['col'].
+
+# Syntax:
+# df['new_col'] = df.apply(lambda row: ... , axis=1)
+
+# --- axis=1 explained ---
+# axis=0 (default) -> operates down the rows (column by column)
+# axis=1           -> operates across the columns (row by row)
+# Always use axis=1 when your lambda needs values from multiple columns.
+
+# --- Example table: price with tax ---
+# Item           | Price | Is taxed? | Price with Tax
+# ---------------|-------|-----------|---------------
+# Apple          | 1.00  | No        | 1.00
+# Milk           | 4.20  | No        | 4.20
+# Paper Towels   | 5.00  | Yes       | 5.375
+# Light Bulbs    | 3.75  | Yes       | 4.031
+
+# Simple example — price with tax:
+# df['Price with Tax'] = df.apply(lambda row:
+#     row['Price'] * 1.075
+#     if row['Is taxed?'] == 'Yes'
+#     else row['Price'],
+#     axis=1
+# )
+
+# --- Example table: overtime pay ---
+# Name        | hours_worked | hourly_wage | total_earned
+# ------------|--------------|-------------|-------------
+# Employee A  | 35           | 10.00       | 350.00
+# Employee B  | 43           | 10.00       | 445.00  (400 normal + 45 overtime)
+# Employee C  | 50           | 15.00       | 825.00  (600 normal + 225 overtime)
+
+# Finance example — overtime pay:
+# Regular function version:
+# def total_earned(row):
+#     if row['hours_worked'] <= 40:
+#         return row['hours_worked'] * row['hourly_wage']
+#     else:
+#         return (40 * row['hourly_wage']) + (row['hours_worked'] - 40) * (row['hourly_wage'] * 1.50)
+
+# Lambda version (equivalent):
+total_earned = lambda row: \
+    row['hours_worked'] * row['hourly_wage'] \
+    if row['hours_worked'] <= 40 \
+    else (row['hours_worked'] - 40) * 1.5 * row['hourly_wage'] + row['hourly_wage'] * 40
+# row['hours_worked'] <= 40 -> pay normal rate for all hours
+# row['hours_worked'] > 40  -> pay normal for first 40, then 1.5x for the rest
+
+df['total_earned'] = df.apply(total_earned, axis=1)
+
+# --- Key difference from column apply ---
+# Column apply:  df['new'] = df['col'].apply(lambda x: ...)
+# Row apply:     df['new'] = df.apply(lambda row: ..., axis=1)
+#                                     ^whole df^         ^axis=1^
