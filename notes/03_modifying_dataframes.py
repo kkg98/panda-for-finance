@@ -205,3 +205,54 @@ df['total_earned'] = df.apply(total_earned, axis=1)
 # Column apply:  df['new'] = df['col'].apply(lambda x: ...)
 # Row apply:     df['new'] = df.apply(lambda row: ..., axis=1)
 #                                     ^whole df^         ^axis=1^
+
+# ------------------------------------------------------------
+# 9. Renaming Columns
+# ------------------------------------------------------------
+
+# --- Method 1: .columns (rename ALL columns at once) ---
+# Assign a new list to df.columns — must match the exact number of columns.
+# Risk: easy to mislabel if you get the order wrong!
+
+df.columns = ['ID', 'Title', 'Category', 'Year Released', 'Rating']
+# Every column gets renamed in order — no room for error in sequencing
+
+
+# --- Method 2: .rename() (rename SPECIFIC columns) ---
+# Pass a dictionary: {'old_name': 'new_name'}
+# Safer — you specify exactly which column gets which new name.
+
+# WITHOUT inplace=True -> creates a new DataFrame, original is unchanged:
+#
+# Before:
+# id   | name          | genre  | year | imdb_rating
+# -----|---------------|--------|------|------------
+# 1    | The Godfather | Drama  | 1972 | 9.2
+# 2    | Toy Story     | Comedy | 1995 | 8.3
+#
+# df.rename(columns={'name': 'movie_title'})  <- no inplace=True
+#
+# df is still:                      new_df is:
+# id   | name          | ...        id   | movie_title   | ...
+# -----|---------------|---         -----|---------------|---
+# 1    | The Godfather | ...        1    | The Godfather | ...
+# 2    | Toy Story     | ...        2    | Toy Story     | ...
+
+# WITH inplace=True -> modifies the original DataFrame directly:
+#
+# df.rename(columns={'name': 'movie_title'}, inplace=True)
+#
+# df is now:
+# id   | movie_title   | genre  | year | imdb_rating
+# -----|---------------|--------|------|------------
+# 1    | The Godfather | Drama  | 1972 | 9.2
+# 2    | Toy Story     | Comedy | 1995 | 8.3
+
+df.rename(columns={'name': 'movie_title'}, inplace=True)
+
+# Note: if you misspell the old column name, .rename() won't throw an error
+# — it just won't change anything. Always double check the original name!
+
+# --- When to use which ---
+# .columns  -> renaming ALL columns at once, when you're sure of the order
+# .rename() -> renaming ONE or a FEW columns safely, preferred in most cases
