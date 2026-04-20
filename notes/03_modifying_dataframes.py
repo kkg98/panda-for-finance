@@ -1,19 +1,3 @@
-# ============================================
-# Modifying DataFrames
-# ============================================
-
-import pandas as pd
-
-# ---- ADDING A COLUMN FROM A LIST ----
-# Assign a list directly to a new column name
-# List must be the same length as the DataFrame!
-df['Quantity'] = [100, 150, 50, 35]
-df['Sold in Bulk?'] = ['Yes', 'Yes', 'No', 'No']
-
-# Coming up next:
-# - Adding columns using lambda functions
-# - Renaming columns
-
 # ============================================================
 # Section 3: Modifying DataFrames
 # ============================================================
@@ -109,7 +93,10 @@ mylambda = lambda x: "Welcome to BattleCity!" if x >= 13 else "You must be 13 or
 # ------------------------------------------------------------
 # 6. Lambda with If/Else
 # ------------------------------------------------------------
-# Syntax: lambda x: [value if true] if [condition] else [value if false]
+
+# ============================================================
+# SYNTAX: lambda x: [VALUE IF TRUE] if [CONDITION] else [VALUE IF FALSE]
+# ============================================================
 
 # Overtime pay example:
 overtime = lambda x: 40 + (x - 40) * 1.50 if x > 40 else x
