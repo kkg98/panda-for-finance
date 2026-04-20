@@ -256,3 +256,65 @@ df.rename(columns={'name': 'movie_title'}, inplace=True)
 # --- When to use which ---
 # .columns  -> renaming ALL columns at once, when you're sure of the order
 # .rename() -> renaming ONE or a FEW columns safely, preferred in most cases
+
+
+
+# ============================================================
+# PRACTICE EXERCISES: .apply() and lambda functions
+# ============================================================
+
+import pandas as pd
+
+# --- Exercise 1: Single column apply with if/else ---
+df = pd.DataFrame({
+    'first_name': ['Alice', 'Bob', 'Carol', 'David'],
+    'grade': [85, 42, 91, 38]
+})
+
+df['result'] = df['grade'].apply(lambda x: 'Pass' if x >= 50 else 'Fail')
+# Single column -> use df['col'].apply(lambda x: ...)
+# grade >= 50 -> 'Pass', else -> 'Fail'
+
+# --- Exercise 2: Row apply with string concatenation ---
+df['summary'] = df.apply(lambda row: row['first_name'] + ': ' + row['result'], axis=1)
+# Multiple columns -> use df.apply(lambda row: ..., axis=1)
+# row['first_name'] + ': ' + row['result'] -> 'Alice: Pass'
+
+# --- Exercise 3: Row apply with str() conversion ---
+df['report'] = df.apply(
+    lambda row: row['first_name'] + ' scored ' + str(row['grade']) + ' - ' + row['result'],
+    axis=1
+)
+# Numbers must be converted to strings with str() before joining with +
+# 'Alice scored 85 - Pass'
+
+# --- Exercise 4: Finance — stock return summary ---
+df2 = pd.DataFrame({
+    'ticker': ['AAPL', 'GOOGL', 'TSLA', 'MSFT'],
+    'start_price': [150.00, 2800.00, 200.00, 300.00],
+    'end_price': [174.00, 2520.00, 180.00, 330.00]
+})
+
+# Step 1: calculate return percentage
+df2['return_pct'] = df2.apply(
+    lambda row: round(((row['end_price'] - row['start_price']) / row['start_price']) * 100, 1),
+    axis=1
+)
+# (end_price - start_price) / start_price * 100 -> percentage return
+# round(..., 1) -> 1 decimal place
+
+# Step 2: build summary string with +/- sign
+df2['summary'] = df2.apply(
+    lambda row: row['ticker'] + ': +' + str(row['return_pct']) + '%'
+    if row['return_pct'] > 0
+    else row['ticker'] + ': ' + str(row['return_pct']) + '%',
+    axis=1
+)
+# Positive returns: manually add '+' sign
+# Negative returns: str() already includes '-' automatically
+# ticker | return_pct | summary
+# -------|------------|--------
+# AAPL   | 16.0       | AAPL: +16.0%
+# GOOGL  | -10.0      | GOOGL: -10.0%
+# TSLA   | -10.0      | TSLA: -10.0%
+# MSFT   | 10.0       | MSFT: +10.0%
