@@ -318,3 +318,30 @@ df2['summary'] = df2.apply(
 # GOOGL  | -10.0      | GOOGL: -10.0%
 # TSLA   | -10.0      | TSLA: -10.0%
 # MSFT   | 10.0       | MSFT: +10.0%
+
+
+
+# --- Exercise 5: Nested if/else with multiple conditions ---
+df3 = pd.DataFrame({
+    'name': ['Alice', 'Bob', 'Carol', 'David'],
+    'portfolio_value': [10000, 25000, 8000, 150000],
+    'risk_tolerance': ['low', 'high', 'low', 'high']
+})
+
+df3['recommendation'] = df3.apply(
+    lambda row: 'Aggressive growth'    if row['portfolio_value'] > 100000 and row['risk_tolerance'] == 'high'
+    else        'Conservative growth'  if row['portfolio_value'] > 100000 and row['risk_tolerance'] == 'low'
+    else        'Balanced'             if row['portfolio_value'] <= 100000 and row['risk_tolerance'] == 'high'
+    else        'Capital preservation',
+    axis=1
+)
+# Use 'and' to combine two conditions in one if clause
+# Chain multiple conditions with: 'A' if cond1 else 'B' if cond2 else 'C' if cond3 else 'D'
+# The final else needs no condition — it catches everything remaining
+
+# name  | portfolio_value | risk_tolerance | recommendation
+# -------|----------------|----------------|---------------------
+# Alice  | 10000          | low            | Capital preservation
+# Bob    | 25000          | high           | Balanced
+# Carol  | 8000           | low            | Capital preservation
+# David  | 150000         | high           | Aggressive growth
