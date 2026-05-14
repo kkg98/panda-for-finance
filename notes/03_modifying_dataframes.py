@@ -345,3 +345,84 @@ df3['recommendation'] = df3.apply(
 # Bob    | 25000          | high           | Balanced
 # Carol  | 8000           | low            | Capital preservation
 # David  | 150000         | high           | Aggressive growth
+
+
+
+# ============================================================
+# PROJECT: Petal Power Inventory
+# ============================================================
+# Applies concepts from this section in a realistic workflow:
+# filtering, boolean columns, arithmetic columns, row-wise apply.
+# Data file: data/inventory.csv
+# ============================================================
+ 
+import pandas as pd
+ 
+# --- Answer Customer Emails ---
+ 
+# Task 1: Data for all locations is in inventory.csv.
+# Load the data into a DataFrame called inventory.
+inventory = pd.read_csv('data/inventory.csv')
+# location | product_type | product_description | quantity | price
+ 
+# Task 2: Inspect the first 10 rows of inventory.
+print(inventory.head(10))
+ 
+# Task 3: The first 10 rows represent data from the Staten Island location.
+# Select these rows and save them to staten_island.
+staten_island = inventory.head(10)
+# inventory.head(10) and inventory[0:10] are equivalent
+# Staten Island occupies the first 10 rows in this dataset
+ 
+# Task 4: A customer emailed asking what products are sold at Staten Island.
+# Select the column product_description from staten_island
+# and save it to the variable product_request.
+product_request = staten_island['product_description']
+# Returns a Series of product names for Staten Island only
+ 
+# Task 5: Another customer asks what types of seeds are sold at the Brooklyn location.
+# Select all rows where location is 'Brooklyn' and product_type is 'seeds'.
+# Save to seed_request.
+seed_request = inventory[
+    (inventory['location'] == 'Brooklyn') &
+    (inventory['product_type'] == 'seeds')
+]
+# & joins two boolean conditions (both must be True)
+# Each condition must be wrapped in parentheses
+# Equivalent R: filter(inventory, location == "Brooklyn" & product_type == "seeds")
+ 
+# --- Inventory ---
+ 
+# Task 6: Add a column called in_stock which is True if quantity > 0,
+# and False if quantity equals 0.
+inventory['in_stock'] = inventory['quantity'] > 0
+# inventory['quantity'] > 0 produces a boolean Series directly
+# True if quantity > 0, False if quantity == 0
+#
+# AVOID this pattern (stores strings, not booleans):
+# inventory['in_stock'] = inventory['quantity'].apply(lambda x: "True" if x > 0 else "False")
+# Strings look the same when printed but break filtering:
+# inventory[inventory['in_stock'] == True]  <- won't work with string "True"
+ 
+# Task 7: Petal Power wants to know how valuable their current inventory is.
+# Create a column called total_value equal to price multiplied by quantity.
+inventory['total_value'] = inventory['price'] * inventory['quantity']
+# Vectorized: pandas multiplies each row's price by its quantity automatically
+# No loop or .apply() needed for simple arithmetic between two columns
+ 
+# Task 8: The Marketing department wants a complete description of each product.
+# Paste the provided lambda function into the script.
+# Task 9: Using combine_lambda, create a new column called full_description.
+combine_lambda = lambda row: \
+    '{} - {}'.format(row.product_type, row.product_description)
+# '{} - {}'.format(a, b) inserts a and b into the {} placeholders
+# row.product_type and row.product_description use dot notation on the row object
+# e.g. 'seeds - daisy'
+ 
+inventory['full_description'] = inventory.apply(combine_lambda, axis=1)
+# axis=1 -> pass each row to the lambda
+# result: 'seeds - daisy', 'garden tools - rake', etc.
+ 
+print(inventory.head(10))
+# location | product_type | product_description | quantity | price | in_stock | total_value | full_description
+ 
