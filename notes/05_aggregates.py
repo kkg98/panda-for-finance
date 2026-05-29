@@ -27,6 +27,12 @@ orders = pd.read_csv('data/orders.csv')
 # Calculate a single summary statistic for a column
 # General syntax: df['column_name'].method()
 
+# RULES TO REMEMBER:
+# - These return a single scalar value (one number), not a DataFrame
+# - .nunique() and .unique() work on text columns too, not just numbers
+# - .count() counts non-null values — useful for spotting missing data
+# - .std() measures spread/volatility — very important in finance
+
 orders['price'].mean()         # -> 69.02  (average price)
 orders['price'].std()          # -> 18.25  (standard deviation)
 orders['price'].median()       # -> 69.99
@@ -36,11 +42,29 @@ orders['price'].count()        # -> 60     (number of non-null rows)
 orders['shoe_type'].nunique()  # -> 4      (ballet flats, sandals, stilettos, wedges)
 orders['shoe_type'].unique()   # -> array(['ballet flats', 'sandals', 'stilettos', 'wedges'])
 
+# QUIZ: You have a DataFrame customer_purchases with a column called name.
+# How do you count how many UNIQUE customers made a purchase?
+# -> customer_purchases['name'].nunique()
+# Note: .unique() returns the actual names; .nunique() returns the COUNT of unique names
+ 
+# QUIZ: You have a sports_store DataFrame with a price column.
+# How do you get the average price?
+# -> sports_store['price'].mean()
+# Note: .average() does NOT exist in pandas — always use .mean()
+ 
 
 # ---- AGGREGATE FUNCTIONS I & II: .groupby() ----
 # Group rows by a column, then apply a summary statistic
 # Equivalent to GROUP BY in SQL
 
+# RULES TO REMEMBER:
+# - Always chain .reset_index() at the end to get a clean DataFrame back
+#   (without it, the grouped column becomes the index, which is awkward)
+# - The column in groupby() is what you're grouping BY (the category)
+# - The column in [] after groupby is what you're MEASURING
+# - Order matters: df.groupby('category')['value'].method()
+#   NOT: df['value'].groupby('category').method()
+ 
 # Syntax:
 # df.groupby('column_to_group_by')['column_to_aggregate'].method()
 
@@ -52,6 +76,12 @@ orders.groupby('shoe_type')['price'].mean()
 orders.groupby('shoe_type')['price'].mean().reset_index()
 # -> returns a proper DataFrame
 
+# QUIZ: movie_ratings has columns: critic, movie, rating.
+# How do you get the average rating for each movie?
+# -> movie_ratings.groupby('movie')['rating'].mean()
+# Note: group by 'movie' (the category), measure 'rating' (the value)
+# NOT movie_ratings.movie.groupby('rating').mean() — wrong order
+ 
 # Common aggregation methods (interchangeable at the end of the chain):
 # .mean()     - average
 # .count()    - number of rows in each group
@@ -69,6 +99,13 @@ orders.groupby('shoe_type')['price'].mean().reset_index()
 
 # df.groupby('column').agg({'col_1': 'max', 'col_2': 'mean'}).reset_index()
 
+# RULES TO REMEMBER:
+# - Method names inside .agg() are passed as STRINGS: 'mean', 'max', not .mean(), .max()
+# - You can apply different methods to different columns in one call
+# - Useful when you need a summary table with several stats at once
+ 
+# df.groupby('column').agg({'col_1': 'max', 'col_2': 'mean'}).reset_index()
+ 
 # Example: get the cheapest and most expensive shoe per type
 orders.groupby('shoe_type').agg(
     {'price': 'max', 'quantity': 'count'}
@@ -80,6 +117,13 @@ orders.groupby('shoe_type').agg(
 
 # df.groupby(['col_1', 'col_2'])['col_to_aggregate'].method().reset_index()
 
+# RULES TO REMEMBER:
+# - Each unique COMBINATION of the grouped columns becomes one row
+# - The more columns you group by, the more specific (and numerous) your groups
+# - Still always chain .reset_index() at the end
+ 
+# df.groupby(['col_1', 'col_2'])['col_to_aggregate'].method().reset_index()
+ 
 # Example: count shoe sales by shoe_type AND shoe_color combination
 shoe_counts = orders.groupby(['shoe_type', 'shoe_color'])['id'].count().reset_index()
 # -> one row per unique (shoe_type, shoe_color) pair
@@ -101,6 +145,15 @@ shoe_counts = orders.groupby(['shoe_type', 'shoe_color'])['id'].count().reset_in
 # Useful for comparing combinations at a glance (like a crosstab)
 # Think of it like going from "long format" to "wide format" (familiar from R!)
 
+# RULES TO REMEMBER:
+# - Always groupby FIRST, then pivot the result
+# - columns= is what fans out into new column headers
+# - index=  is what stays as the row labels
+# - values= is the numbers that fill the cells
+# - A common mistake: swapping index and columns — think of the FINAL table
+#   shape you want before writing the code
+# - Always chain .reset_index() after pivot too
+ 
 # Syntax:
 # df.pivot(
 #     columns='ColumnToPivot',    # unique values become new column headers
@@ -144,6 +197,17 @@ shoe_counts_pivot = shoe_counts.pivot(
 # stilettos     ...    ...    ...   ...  ...
 # wedges        ...    ...    ...   ...  ...
 
+# QUIZ: movie_ratings has columns: critic, movie, rating.
+# You want critics as rows, movies as columns, ratings as values.
+# Which pivot is correct?
+# -> movie_review_pivot = movie_ratings.pivot(
+#        columns='movie',
+#        index='critic',
+#        values='rating'
+#    )
+# Note: columns= fans out into Movie A / Movie B / Movie C headers
+#       index=   keeps critic as the row label
+# Common mistake: swapping index and columns gives you the transposed table
 
 # ============================================
 # REMEMBER from 03_modifying_dataframes.py:
