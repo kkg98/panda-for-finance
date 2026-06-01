@@ -5,6 +5,7 @@
 #         aggregate functions, pivot tables
 # ============================================
 
+import numpy as np
 import pandas as pd
 
 # Load the sample dataset (save orders.csv to your data/ folder)
@@ -37,19 +38,21 @@ orders['price'].median()       # -> 69.99
 orders['price'].max()          # -> 95.99
 orders['price'].min()          # -> 39.99
 orders['price'].count()        # -> 60     (number of non-null rows)
-orders['shoe_type'].nunique()  # -> 4      (ballet flats, sandals, stilettos, wedges)
-orders['shoe_type'].unique()   # -> array(['ballet flats', 'sandals', 'stilettos', 'wedges'])
+# -> 4      (ballet flats, sandals, stilettos, wedges)
+orders['shoe_type'].nunique()
+# -> array(['ballet flats', 'sandals', 'stilettos', 'wedges'])
+orders['shoe_type'].unique()
 
 # QUIZ: You have a DataFrame customer_purchases with a column called name.
 # How do you count how many UNIQUE customers made a purchase?
 # -> customer_purchases['name'].nunique()
 # Note: .unique() returns the actual names; .nunique() returns the COUNT of unique names
- 
+
 # QUIZ: You have a sports_store DataFrame with a price column.
 # How do you get the average price?
 # -> sports_store['price'].mean()
 # Note: .average() does NOT exist in pandas — always use .mean()
- 
+
 
 # ---- AGGREGATE FUNCTIONS I & II: .groupby() ----
 # Group rows by a column, then apply a summary statistic
@@ -62,7 +65,7 @@ orders['shoe_type'].unique()   # -> array(['ballet flats', 'sandals', 'stilettos
 # - The column in [] after groupby is what you're MEASURING
 # - Order matters: df.groupby('category')['value'].method()
 #   NOT: df['value'].groupby('category').method()
- 
+
 # Syntax:
 # df.groupby('column_to_group_by')['column_to_aggregate'].method()
 
@@ -81,7 +84,7 @@ orders['shoe_type'].unique()   # -> array(['ballet flats', 'sandals', 'stilettos
 #   -> I want one row per utm_source     -> groupby('utm_source')
 #   -> I want to count visits (rows)     -> ['user_id'].count()
 #   ad_clicks.groupby('utm_source')['user_id'].count()
-#   Read aloud: "Group by source, count user IDs" 
+#   Read aloud: "Group by source, count user IDs"
 #
 #   WRONG: ad_clicks.groupby('user_id')['utm_source'].count()
 #   Read aloud: "Group by user, count sources" - one row per user, not source
@@ -90,13 +93,13 @@ orders['shoe_type'].unique()   # -> array(['ballet flats', 'sandals', 'stilettos
 #   -> I want one row per country        -> groupby('country')
 #   -> I want to average order_value     -> ['order_value'].mean()
 #   orders.groupby('country')['order_value'].mean()
-#   Read aloud: "Group by country, average order value" 
+#   Read aloud: "Group by country, average order value"
 #
 # EXAMPLE 3: "How many employees are in each department?"
 #   -> I want one row per department     -> groupby('department')
 #   -> I want to count employees         -> ['employee_id'].count()
 #   employees.groupby('department')['employee_id'].count()
-#   Read aloud: "Group by department, count employee IDs" 
+#   Read aloud: "Group by department, count employee IDs"
 # ----------------------------------------------------------
 
 # Example: average price by shoe type
@@ -112,7 +115,7 @@ orders.groupby('shoe_type')['price'].mean().reset_index()
 # -> movie_ratings.groupby('movie')['rating'].mean()
 # Note: group by 'movie' (the category), measure 'rating' (the value)
 # NOT movie_ratings.movie.groupby('rating').mean() — wrong order
- 
+
 # Common aggregation methods (interchangeable at the end of the chain):
 # .mean()     - average
 # .count()    - number of rows in each group
@@ -134,9 +137,9 @@ orders.groupby('shoe_type')['price'].mean().reset_index()
 # - Method names inside .agg() are passed as STRINGS: 'mean', 'max', not .mean(), .max()
 # - You can apply different methods to different columns in one call
 # - Useful when you need a summary table with several stats at once
- 
+
 # df.groupby('column').agg({'col_1': 'max', 'col_2': 'mean'}).reset_index()
- 
+
 # Example: get the cheapest and most expensive shoe per type
 orders.groupby('shoe_type').agg(
     {'price': 'max', 'quantity': 'count'}
@@ -152,11 +155,12 @@ orders.groupby('shoe_type').agg(
 # - Each unique COMBINATION of the grouped columns becomes one row
 # - The more columns you group by, the more specific (and numerous) your groups
 # - Still always chain .reset_index() at the end
- 
+
 # df.groupby(['col_1', 'col_2'])['col_to_aggregate'].method().reset_index()
- 
+
 # Example: count shoe sales by shoe_type AND shoe_color combination
-shoe_counts = orders.groupby(['shoe_type', 'shoe_color'])['id'].count().reset_index()
+shoe_counts = orders.groupby(['shoe_type', 'shoe_color'])[
+    'id'].count().reset_index()
 # -> one row per unique (shoe_type, shoe_color) pair
 
 # print(shoe_counts)
@@ -184,7 +188,47 @@ shoe_counts = orders.groupby(['shoe_type', 'shoe_color'])['id'].count().reset_in
 # - A common mistake: swapping index and columns — think of the FINAL table
 #   shape you want before writing the code
 # - Always chain .reset_index() after pivot too
- 
+
+# ----------------------------------------------------------
+# VISUAL: what pivot actually does
+#
+# BEFORE pivot (long format — output of groupby):
+# +--------------+----------+-------+
+# | utm_source   | is_click | count |
+# +--------------+----------+-------+
+# | email        | False    |   175 |
+# | email        | True     |    80 |
+# | facebook     | False    |   324 |
+# | facebook     | True     |   180 |
+# | google       | False    |   410 |
+# | google       | True     |   239 |
+# +--------------+----------+-------+
+#
+# AFTER pivot (wide format — easier to compare):
+#
+#                        is_click
+#                  +-------+------+
+# utm_source       | False | True |
+# -----------------+-------+------+
+# email            |   175 |   80 |
+# facebook         |   324 |  180 |
+# google           |   410 |  239 |
+# -----------------+-------+------+
+#   ^                  ^      ^
+#   index=             |      |
+#   (stays as rows)    +------+
+#                   columns=
+#                   (fans out into headers)
+#
+# The VALUES fill the cells.
+#
+# HOW TO DECIDE which is index and which is columns:
+#   - Look at the FINAL table you want
+#   - What do you want as ROW labels?    -> index=
+#   - What do you want as COLUMN headers? -> columns=
+#   - What numbers fill the cells?        -> values=
+# ----------------------------------------------------------
+
 # Syntax:
 # df.pivot(
 #     columns='ColumnToPivot',    # unique values become new column headers
@@ -213,7 +257,8 @@ shoe_counts = orders.groupby(['shoe_type', 'shoe_color'])['id'].count().reset_in
 # West Village  300   310   400   450
 
 # ShoeFly example: count per shoe_type/shoe_color, pivoted for easy comparison
-shoe_counts = orders.groupby(['shoe_type', 'shoe_color'])['id'].count().reset_index()
+shoe_counts = orders.groupby(['shoe_type', 'shoe_color'])[
+    'id'].count().reset_index()
 
 shoe_counts_pivot = shoe_counts.pivot(
     columns='shoe_color',
@@ -257,8 +302,6 @@ shoe_counts_pivot = shoe_counts.pivot(
 # e.g. facebook, google, yahoo, twitter, email
 # ============================================
 
-import pandas as pd
-import numpy as np
 
 # --- SETUP ---
 # Load user_visits.csv into a DataFrame called user_visits
@@ -280,7 +323,8 @@ print(click_source)
 # Use groupby to calculate the number of visits from each utm_source for each month.
 # Save to variable: click_source_by_month
 # Hint: you need to group by TWO columns this time
-click_source_by_month = user_visits.groupby(["utm_source", "month"])["id"].count().reset_index()
+click_source_by_month = user_visits.groupby(["utm_source", "month"])[
+    "id"].count().reset_index()
 print(click_source_by_month)
 
 # ============================================
