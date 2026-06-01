@@ -6,13 +6,11 @@
 # ============================================
 
 import pandas as pd
-import numpy as np
 
 # Load the sample dataset (save orders.csv to your data/ folder)
 # Columns: id, first_name, last_name, email,
 #          shoe_type, shoe_color, shoe_material, price, quantity
 orders = pd.read_csv('data/orders.csv')
- 
 
 # print(orders.head())
 #    id first_name last_name                    email    shoe_type shoe_color shoe_material  price  quantity
@@ -67,6 +65,39 @@ orders['shoe_type'].unique()   # -> array(['ballet flats', 'sandals', 'stilettos
  
 # Syntax:
 # df.groupby('column_to_group_by')['column_to_aggregate'].method()
+
+# ----------------------------------------------------------
+# HOW TO KNOW WHAT GOES WHERE — the two-question rule:
+#
+# Ask yourself:
+#   1. "I want one row per ___"             -> that goes in groupby()
+#   2. "I want to count/sum/average ___"    -> that goes in []
+#
+# Then read it out loud to check:
+#   "Group by X, then count Y" — does that answer the question?
+#   If yes, you're right. If it sounds backwards, flip them.
+#
+# EXAMPLE 1: "How many views came from each utm_source?"
+#   -> I want one row per utm_source     -> groupby('utm_source')
+#   -> I want to count visits (rows)     -> ['user_id'].count()
+#   ad_clicks.groupby('utm_source')['user_id'].count()
+#   Read aloud: "Group by source, count user IDs" 
+#
+#   WRONG: ad_clicks.groupby('user_id')['utm_source'].count()
+#   Read aloud: "Group by user, count sources" - one row per user, not source
+#
+# EXAMPLE 2: "What is the average order value per country?"
+#   -> I want one row per country        -> groupby('country')
+#   -> I want to average order_value     -> ['order_value'].mean()
+#   orders.groupby('country')['order_value'].mean()
+#   Read aloud: "Group by country, average order value" 
+#
+# EXAMPLE 3: "How many employees are in each department?"
+#   -> I want one row per department     -> groupby('department')
+#   -> I want to count employees         -> ['employee_id'].count()
+#   employees.groupby('department')['employee_id'].count()
+#   Read aloud: "Group by department, count employee IDs" 
+# ----------------------------------------------------------
 
 # Example: average price by shoe type
 orders.groupby('shoe_type')['price'].mean()
