@@ -5,7 +5,7 @@
 #         aggregate functions, pivot tables
 # ============================================
 
-import numpy as np
+#import numpy as np
 import pandas as pd
 
 # Load the sample dataset (save orders.csv to your data/ folder)

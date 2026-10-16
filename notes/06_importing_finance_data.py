@@ -201,3 +201,216 @@ print(sap_data)
 #
 # R: web.DataReader('SP500','fred',...) ~ getSymbols("SP500", src="FRED");
 #    a DatetimeIndex is like an xts/zoo object keyed by date.
+
+# ============================================================
+# API Keys
+# ============================================================
+# Task: run a Tiingo request with a fake key -> expect an
+#       "invalid API key" error. (Error is the point of the task.)
+
+# An API key = a long random string that identifies YOU to the API.
+#   e.g. 003026bbc133714df1834b8638bb496e-8f4b3d9a-e931
+# Most finance APIs require one (FRED / World Bank above don't).
+# You get one by signing up on the provider's website.
+#
+# RULE: treat an API key like a PASSWORD.
+#   - never share it
+#   - never hardcode it in a script that goes to GitHub
+#     (bots scan public repos for keys within minutes)
+#   - never paste it into an online editor (incl. Codecademy)
+
+# What the course runs (fails on purpose - placeholder key):
+#   import pandas_datareader as pdr
+#   df = pdr.get_data_tiingo('GOOG', api_key='my-api-key')
+#   # -> error: invalid API key
+
+# ------------------------------------------------------------
+# The safe pattern: environment variable
+# ------------------------------------------------------------
+# Store the key in the OPERATING SYSTEM, read it from the script.
+# The script contains only the variable NAME -> safe to commit.
+#
+#   +----------------------+        +--------------------------+
+#   |  Windows (setx)      |        |  script.py  (on GitHub)  |
+#   |  TIINGO_API_KEY =    | -----> |  os.environ.get(         |
+#   |  "real-secret-key"   |  read  |     "TIINGO_API_KEY")    |
+#   +----------------------+        +--------------------------+
+#      secret lives here               only the NAME lives here
+#
+# Set once in cmd (then close + reopen terminal / VS Code -
+# setx only applies to NEW sessions):
+#   setx TIINGO_API_KEY "your-real-key-here"
+
+import os
+
+api_key = os.environ.get("TIINGO_API_KEY")   # None if not set
+# df = pdr.get_data_tiingo('GOOG', api_key=api_key)
+#
+# Shortcut: the Tiingo reader looks for TIINGO_API_KEY by itself,
+# so  pdr.get_data_tiingo('GOOG')  works once the variable is set.
+
+# LEARNING POINT - the course's Quandl example:
+#   os.environ["QUANDL_API_KEY"] = "demo"
+# This SETS the key inside the script. Fine for a dummy value like
+# "demo"; with a real key it's hardcoding again -> don't commit it.
+# (Also: Quandl is now Nasdaq Data Link; the 'quandl' reader may no
+#  longer work - same kind of drift as nasdaq_trader above.)
+#
+# R: os.environ["KEY"] = "x"   ~ Sys.setenv(KEY = "x")
+#    os.environ.get("KEY")     ~ Sys.getenv("KEY")
+#    setx (OS env var)         ~ keys stored in .Renviron
+
+
+# ============================================================
+# Flaky APIs and Changing Contracts
+# ============================================================
+# Task: reading only - browse the pandas-datareader docs.
+#
+#   Flaky API          -> service sometimes down/slow (TEMPORARY)
+#                         fix: retry later
+#   Changing contract  -> API/library changes how it works (PERMANENT)
+#                         fix: update your code
+#                         e.g. nasdaq_trader removed in v0.11 (above)
+#
+# Course tips:
+#   1. test your code often
+#   2. check the pandas-datareader docs when something breaks
+#      -> "Data Readers" page: every source + its functions
+#      -> "What's New" page: what was added / removed
+#   3. watch the GitHub repo (github.com/pydata/pandas-datareader)
+#      - sometimes the bug is in datareader, not the API
+#
+# Extra habit: wrap API calls so a failure is readable, not a crash.
+#   try:
+#       df = pdr.get_data_fred('GS10')
+#   except Exception as e:
+#       print(f"FRED request failed: {e}")
+#
+# R: try/except ~ tryCatch()
+
+# ============================================================
+# Shift  (.shift)
+# ============================================================
+# Task: pull quarterly GDP from FRED (2008-2018), add a 'growth'
+#       column = change vs. previous quarter.
+
+# import codecademylib3_seaborn   # Codecademy-only - DELETE locally
+#                                 # (ModuleNotFoundError otherwise)
+import pandas_datareader.data as web
+from datetime import datetime
+
+start = datetime(2008, 1, 1)
+end = datetime(2018, 1, 1)
+
+gdp = web.DataReader('GDP', 'fred', start, end)   # quarterly data
+gdp['growth'] = gdp['GDP'] - gdp['GDP'].shift(1)
+print(gdp)
+
+# shift(n) moves every row of a column (or whole DataFrame)
+#   n > 0  -> DOWN  (row sees the PAST value)
+#   n < 0  -> UP    (row sees the FUTURE value)
+#
+#          GDP     GDP.shift(1)   growth
+#   Q1   14651         NaN          NaN    <- no previous row
+#   Q2   14805       14651          154
+#   Q3   14835       14805           30
+#   Q4   14559       14835         -276    <- 2008 crisis
+#
+# 'growth' here = ABSOLUTE change (billions USD), not a percentage.
+#
+# Shortcuts:
+#   df['col'].diff()         == df['col'] - df['col'].shift(1)
+#   df['col'].pct_change()   == (x - x.shift(1)) / x.shift(1)
+#
+# R: shift(1) ~ dplyr::lag(x, 1)   shift(-1) ~ dplyr::lead(x, 1)
+
+# ============================================================
+# Variance & Covariance  (.var / .cov)
+# ============================================================
+# Task: load TSP fund prices from CSV, print variance of every
+#       column, then the covariance matrix.
+
+import pandas as pd
+
+tsp_data = pd.read_csv("tsp_data.csv", header=0, index_col=0)
+print(tsp_data.var())    # -> Series: one variance per column
+print(tsp_data.cov())    # -> DataFrame: column x column matrix
+
+# VARIANCE = spread around the mean -> VOLATILITY in finance
+#   df['stocks'].var()  # -> 106427   (big swings)
+#   df['bonds'].var()   # -> 2272     (calm)
+#
+# COVARIANCE = do two columns move together?
+#
+#              stocks     bonds
+#   stocks   [ 106427 ]   -15300     diagonal     = own variance
+#   bonds      -15300   [ 2272 ]     off-diagonal = pair covariance
+#                                    (symmetric)
+#   +  -> same direction      -  -> opposite directions
+#
+# LEARNING POINTS:
+#   - course says .var() on a DataFrame returns a DataFrame -> it's
+#     actually a SERIES. .cov() returns the DataFrame.
+#   - covariance gives DIRECTION, not strength (scale-dependent).
+#     Strength -> df.corr()   (always between -1 and +1)
+#   - real finance work uses RETURNS, not prices:
+#       tsp_data.pct_change().cov()
+#
+# R: same names - var(), cov(), cor()  (also sample / n-1 default)
+# ============================================================
+# Review exercise  (section 06 recap)
+# ============================================================
+# Uses: read_csv, .var(), web.DataReader + datetime
+
+# import codecademylib3_seaborn   # Codecademy-only - DELETE locally
+import pandas as pd
+import pandas_datareader.data as web
+from datetime import datetime
+
+# ------------------------------------------------------------
+# Task 1 - Import a CSV
+# ------------------------------------------------------------
+# The file apple_prices.csv holds historical Apple stock prices.
+# Load it into a DataFrame called apple_prices and print it.
+
+apple_prices = pd.read_csv('apple_prices.csv')
+# locally: pd.read_csv('data/apple_prices.csv')
+print(apple_prices)
+
+# MISTAKE MADE: typed 'apple_prices.cvs' (cvs, not csv)
+#   -> [Errno 2] File b'apple_prices.cvs' does not exist
+#   Errno 2 = file not found -> check spelling, extension, folder.
+#   Python stops at the FIRST error, so later lines never ran.
+
+# ------------------------------------------------------------
+# Task 2 - Variance of one column
+# ------------------------------------------------------------
+# Measure how volatile Apple's stock is: print the variance of
+# the 'open' column (opening price).
+
+print(apple_prices['open'].var())
+# -> a single number (one column -> one value)
+#    compare: df.var() on a whole DataFrame -> Series, one per column
+
+# ------------------------------------------------------------
+# Task 3 - Pull data from FRED
+# ------------------------------------------------------------
+# FRED series APUS12A74714 = average gasoline price, New York State.
+# Fetch it for Jan 1 2008 - Jan 1 2018, store it in gas_prices,
+# print it.
+
+start = datetime(2008, 1, 1)
+end = datetime(2018, 1, 1)
+
+gas_prices = web.DataReader('APUS12A74714', 'fred', start, end)
+print(gas_prices)
+# -> DatetimeIndex (one row per date), one column named after the
+#    series id
+
+# LEARNING POINT (R habit): in a .py script, an expression on its
+# own line is calculated and DISCARDED - nothing is shown.
+#   apple_prices['open'].var()          # runs, shows nothing
+#   print(apple_prices['open'].var())   # shows the result
+#   pd.read_csv('file.csv')             # loads, then throws away
+#   df = pd.read_csv('file.csv')        # keeps it in a variable
+# (R console / Jupyter auto-print the last value; scripts don't.)
