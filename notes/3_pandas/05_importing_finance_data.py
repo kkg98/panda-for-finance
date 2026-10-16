@@ -1,5 +1,5 @@
 # ============================================================
-# 06 - IMPORTING FINANCE DATA
+# 05 - IMPORTING FINANCE DATA
 # Codecademy: Analyze Financial Data with Python / Importing Finance Data
 # ============================================================
 # Prereq:  py -m pip install pandas-datareader
