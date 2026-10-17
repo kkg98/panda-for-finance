@@ -1,7 +1,7 @@
 # 4 - Visualizing Finance Data: chart gallery
 
-Every chart in this folder is produced by the notes scripts next to this page and saved to `charts/`.
-Run from the repo root, e.g. `py notes\4_visualizing_finance_data\01_matplotlib_basics.py`.
+Every chart in this folder is produced by the notebooks next to this page and saved to `charts/`.
+Open a notebook (e.g. [01_matplotlib_basics.ipynb](01_matplotlib_basics.ipynb)) to see each chart directly under the code that made it.
 
 ## 01 - Matplotlib basics (Line Graphs in Matplotlib)
 
