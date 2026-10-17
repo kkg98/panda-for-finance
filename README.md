@@ -43,10 +43,12 @@ Each notes file is a runnable script:
 - mistakes I made, flagged as learning points
 - R equivalents (e.g. `shift(1)` ~ `dplyr::lag()`)
 
+> **A historic moment, October 2026:** halfway through the Matplotlib lesson, after typing `# ->` output comments by hand for five whole sections, I discovered Jupyter notebooks - where the output simply appears under the code by itself, just like I was used to with R Markdown. Everything up to `3_pandas` stays as `.py` scripts, a monument to my patience. From `4_visualizing_finance_data` onwards it's `.ipynb` all the way: code, then the chart right below it. You live and you learn..
+
 ## Setup
 
 ```
-py -m pip install pandas numpy matplotlib pandas-datareader
+py -m pip install pandas numpy matplotlib pandas-datareader ipykernel
 ```
 
 On Python 3.12+, if `pandas-datareader` fails with a `distutils` error, run `py -m pip install setuptools` and install it again.
