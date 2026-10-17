@@ -357,3 +357,159 @@ plt.show()
 #
 #   bigger wspace/hspace/left/bottom = more space
 #   "horizontal spacing" in the task = wspace (boxes side by side)
+
+
+# ============================================================
+# 9. Legends
+# ============================================================
+# Task: temperatures in Hyrule, Kakariko and Gerudo Valley over a
+#       year; add a legend at the lower center.
+
+months = range(12)
+hyrule = [63, 65, 68, 70, 72, 72, 73, 74, 71, 70, 68, 64]
+kakariko = [52, 52, 53, 68, 73, 74, 74, 76, 71, 62, 58, 54]
+gerudo = [98, 99, 99, 100, 99, 100, 98, 101, 101, 97, 98, 99]
+
+plt.figure()
+plt.plot(months, hyrule)
+plt.plot(months, kakariko)
+plt.plot(months, gerudo)
+
+legend_labels = ['Hyrule', 'Kakariko', 'Gerudo Valley']
+plt.legend(legend_labels, loc=8)
+plt.savefig(CHARTS + '08_legend.png')
+plt.show()
+
+# Two ways to label lines:
+#
+#   A) list in legend()                   B) label= in each plot()
+#   plt.plot(x, a)                        plt.plot(x, a, label='Hyrule')
+#   plt.plot(x, b)                        plt.plot(x, b, label='Kakariko')
+#   plt.legend(['Hyrule', 'Kakariko'])    plt.legend()   <- still needed!
+#
+#   A: labels matched to lines BY ORDER   B: label sits next to its line
+#      (easy to mix up if lines change)      (safer - the usual style)
+#
+# loc= (default: 0 'best')
+#   0 best          1 upper right   2 upper left    3 lower left
+#   4 lower right   5 right         6 center left   7 center right
+#   8 lower center  9 upper center  10 center
+#   strings read better: loc='lower center'  (same as loc=8)
+#
+#   +----------------------------------+
+#   | 2 upper left   9 upper  1 upper  |
+#   |                  center    right |
+#   | 6 center left  10 center 7 center|
+#   |                            right |
+#   | 3 lower left   8 lower  4 lower  |
+#   |                  center    right |
+#   +----------------------------------+
+#
+# ------------------------------------------------------------
+# MISTAKE MADE: list inside a list
+# ------------------------------------------------------------
+#   plt.legend([legend_labels], loc=8)   # WRONG
+#   plt.legend(legend_labels, loc=8)     # RIGHT
+#
+#   legend_labels   = ['Hyrule', 'Kakariko', 'Gerudo Valley']    3 labels
+#   [legend_labels] = [['Hyrule', 'Kakariko', 'Gerudo Valley']]  1 label!
+#
+#   -> ONE legend entry reading "['Hyrule', 'Kakariko', ...]"
+#      for the first line; the other two lines get nothing.
+
+plt.figure()
+plt.plot(months, hyrule)
+plt.plot(months, kakariko)
+plt.plot(months, gerudo)
+plt.legend([legend_labels], loc=8)
+plt.title('MISTAKE: [legend_labels] -> one label for the whole list')
+plt.savefig(CHARTS + '08b_mistake_legend_double_list.png')
+plt.show()
+
+
+# ============================================================
+# 10. Modify Ticks
+# ============================================================
+# Task: Dinnersaur subscription conversion by month - x-ticks with
+#       month names, y-ticks at 10/25/50/75 shown as percentages.
+
+month_names = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+               'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+months = range(12)
+conversion = [0.05, 0.08, 0.18, 0.28, 0.4, 0.66, 0.74, 0.78, 0.8, 0.81, 0.85, 0.85]
+
+plt.figure()
+plt.xlabel('Months')
+plt.ylabel('Conversion')
+plt.plot(months, conversion)
+
+ax = plt.subplot()
+ax.set_xticks(months)
+ax.set_xticklabels(month_names)
+ax.set_yticks([0.10, 0.25, 0.5, 0.75])
+ax.set_yticklabels(['10%', '25%', '50%', '75%'])
+plt.savefig(CHARTS + '09_ticks.png')
+plt.show()
+
+# NEW STYLE: ax. instead of plt.
+#   ax = one specific chart (axes object). With several subplots,
+#   plt. doesn't say WHICH chart - ax does.
+#
+#   ax = plt.subplot()        # = plt.subplot(1, 1, 1): the one chart
+#
+#   ax.set_xticks([...])        WHERE the ticks sit (numbers)
+#   ax.set_xticklabels([...])   WHAT they say (any text)
+#   ax.set_yticks / ax.set_yticklabels   same for the y-axis
+#
+#   ticks:   0      1      2     ...  11
+#   labels: 'Jan'  'Feb'  'Mar'  ... 'Dec'    <- matched by position
+#
+# Here ax comes AFTER plt.plot() - works, because plt.subplot() with
+# no arguments returns the chart that already exists. Clearer habit:
+#   ax = plt.subplot()   # 1. get the axes
+#   ax.plot(x, y)        # 2. draw on it (ax.plot = plt.plot here)
+#   ax.set_xticks(...)   # 3. adjust it
+#
+# ------------------------------------------------------------
+# FASTER WAY to show percentages (more advanced)
+# ------------------------------------------------------------
+# Typing '10%', '25%' ... by hand breaks as soon as the ticks change.
+#
+# (a) Build the labels from the numbers - f-string + list comprehension:
+#       y_ticks = [0.10, 0.25, 0.5, 0.75]
+#       ax.set_yticks(y_ticks)
+#       ax.set_yticklabels([f'{v:.0%}' for v in y_ticks])
+#
+#       f'{v:.0%}'   ->  x100, add %, 0 decimals   0.25 -> '25%'
+#                        :.1% -> 1 decimal         0.25 -> '25.0%'
+#       [... for v in y_ticks] = list comprehension: do the same thing
+#       to every item -> new list.  R: paste0(y_ticks * 100, "%")
+#
+# (b) Let matplotlib format the whole axis - PercentFormatter:
+#       from matplotlib.ticker import PercentFormatter
+#       ax.yaxis.set_major_formatter(PercentFormatter(1.0))
+#
+#       1.0 = "the value 1.0 means 100%"
+#       works on EVERY tick, also ones you didn't choose; no
+#       set_yticklabels needed. Standard for return/volatility charts
+#       (0.0236 -> 2.4% with PercentFormatter(1.0, decimals=1)).
+#       Comes WITH matplotlib (matplotlib.ticker) - nothing extra to
+#       install, just one more import.
+
+from matplotlib.ticker import PercentFormatter
+
+plt.figure()
+ax = plt.subplot()
+ax.plot(months, conversion)
+ax.set_xticks(months, labels=month_names)   # newer: ticks + labels in one call
+ax.yaxis.set_major_formatter(PercentFormatter(1.0))
+ax.set_xlabel('Month')
+ax.set_ylabel('Share of users on subscription')
+ax.set_title('Faster way: PercentFormatter formats the whole axis')
+plt.savefig(CHARTS + '09b_ticks_percentformatter.png')
+plt.show()
+
+#   which to use?
+#   hand-typed labels   ['10%', ...]             fine for 3 ticks, breaks if ticks change
+#   f-string labels     f'{v:.0%}'               labels always match your ticks
+#   PercentFormatter    set_major_formatter(...) whole axis, any ticks
