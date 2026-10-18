@@ -25,6 +25,12 @@ plt.show()                       # 4. display it
 | **Figures** - default `plt.figure()`<br>![](charts/10_winning_word_lengths.png) | **Figures** - `plt.figure(figsize=(7, 3))`, wide and flat<br>![](charts/10_power_generated.png) |
 | **Mistake: no new figure** - both lines land on one sheet<br>![](charts/10b_mistake_no_new_figure.png) | **Review** - ECB deposit rate vs Austrian inflation, 2015-2025<br>![](charts/11_review_ecb_vs_inflation.png) |
 
+### Project: Sublime Limes' Line Graphs
+
+[01_project_sublime_limes.ipynb](01_project_sublime_limes.ipynb) - website visits and lime sales per month for an online lime retailer: two subplots, markers, custom ticks, legend, `subplots_adjust`.
+
+![](charts/sublime_limes_visits_and_sales.png)
+
 ### Concept guides
 
 **`plt.subplot(rows, cols, index)`** - blue = rows, orange = columns, green = which box
