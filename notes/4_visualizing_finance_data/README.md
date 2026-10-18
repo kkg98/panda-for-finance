@@ -22,6 +22,8 @@ plt.show()                       # 4. display it
 | **Subplots** - `plt.subplot(1, 2, 1)` and `(1, 2, 2)`; right box is a scatter (`'o'`)<br>![](charts/06_subplots.png) | **Mixed layout** - `(2, 1, 1)` on top, `(2, 2, 3)` and `(2, 2, 4)` below<br>![](charts/07_subplots_mixed_layout.png) |
 | **Legend** - `plt.legend(legend_labels, loc=8)`<br>![](charts/08_legend.png) | **Mistake: list inside a list** - `[legend_labels]` gives one label<br>![](charts/08b_mistake_legend_double_list.png) |
 | **Custom ticks** - `ax.set_xticks` / `set_xticklabels`, hand-typed `'10%'` labels<br>![](charts/09_ticks.png) | **Faster way** - `PercentFormatter(1.0)` formats the whole axis<br>![](charts/09b_ticks_percentformatter.png) |
+| **Figures** - default `plt.figure()`<br>![](charts/10_winning_word_lengths.png) | **Figures** - `plt.figure(figsize=(7, 3))`, wide and flat<br>![](charts/10_power_generated.png) |
+| **Mistake: no new figure** - both lines land on one sheet<br>![](charts/10b_mistake_no_new_figure.png) | **Review** - ECB deposit rate vs Austrian inflation, 2015-2025<br>![](charts/11_review_ecb_vs_inflation.png) |
 
 ### Concept guides
 
