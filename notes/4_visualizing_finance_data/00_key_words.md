@@ -39,7 +39,7 @@ Notebook: [01_matplotlib_basics.ipynb](01_matplotlib_basics.ipynb) - project: [0
 
 ## 02 - Different plot types
 
-Notebook: [02_different_plot_types.ipynb](02_different_plot_types.ipynb)
+Notebook: [02_different_plot_types.ipynb](02_different_plot_types.ipynb) - project: [02_project_recreate_graphs.ipynb](02_project_recreate_graphs.ipynb)
 
 | keyword | what it does | example | explained in |
 |---|---|---|---|
@@ -64,5 +64,10 @@ Notebook: [02_different_plot_types.ipynb](02_different_plot_types.ipynb)
 | `.dt.hour` / `.dt.minute` | parts of a datetime column (R: `lubridate::hour()`) | `t.dt.hour + t.dt.minute / 60` | [section 9](02_different_plot_types.ipynb) |
 | `histtype='step'` | histogram outline only, no fill | `plt.hist(a, histtype='step')` | [section 10](02_different_plot_types.ipynb) |
 | `density=True` | scales a histogram so its area = 1 - compares shapes of groups with different sizes | `plt.hist(a, density=True)` | [section 10](02_different_plot_types.ipynb) |
+| `ax.bar` / `ax.legend` | same as `plt.` - draws on this `ax` only | `ax.bar(school_a_x, middle_school_a)` | [project, task 2](02_project_recreate_graphs.ipynb) |
+| `ax.set_title` / `set_xlabel` / `set_ylabel` | `ax.` names for `plt.title` / `xlabel` / `ylabel` | `ax.set_title('Test Averages')` | [project, task 2](02_project_recreate_graphs.ipynb) |
+| `ax.set_xlim` / `set_ylim` | `ax.` version of `plt.axis([...])` | `ax.set_ylim(0, 100)` | [project, task 2](02_project_recreate_graphs.ipynb) |
+| `zip(a, b)` | pairs two lists element by element | `[(a+b)/2 for a, b in zip(xa, xb)]` | [project, task 2](02_project_recreate_graphs.ipynb) |
+| named arguments | `name=value` in a call - any order, explains itself | `create_x(t=2, w=0.8, n=1, d=5)` | [project, task 2](02_project_recreate_graphs.ipynb) |
 
 Quiz questions I got wrong: [section 11](02_different_plot_types.ipynb).
