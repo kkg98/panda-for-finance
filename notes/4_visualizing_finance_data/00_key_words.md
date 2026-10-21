@@ -51,3 +51,18 @@ Notebook: [02_different_plot_types.ipynb](02_different_plot_types.ipynb)
 | `bottom=` | where this bar starts - the dataset in `bottom=` is the one underneath | `plt.bar(x, sales2, bottom=sales1)` | [section 4](02_different_plot_types.ipynb) |
 | `yerr=` | error bars - one number for all bars, or one per bar | `plt.bar(x, values, yerr=error)` | [section 5](02_different_plot_types.ipynb) |
 | `capsize=` | width of the error bar caps | `capsize=5` | [section 5](02_different_plot_types.ipynb) |
+| `plt.fill_between(x, lower, upper)` | shaded band between two y-lines - draw it before the line | `plt.fill_between(months, y_lower, y_upper, alpha=0.2)` | [section 6](02_different_plot_types.ipynb) |
+| list comprehension | does a calculation on every item of a list (R: `revenue * 0.9`) | `[0.9 * i for i in revenue]` | [section 6](02_different_plot_types.ipynb) |
+| `alpha=` | transparency - 0 invisible, 1 solid | `alpha=0.2` | [sections 6, 10](02_different_plot_types.ipynb) |
+| `plt.pie(values)` | pie chart - each value becomes a share of the total | `plt.pie(payment_method_freqs)` | [section 7](02_different_plot_types.ipynb) |
+| `plt.axis('equal')` | equal axes - the pie is a circle, not an oval | `plt.axis('equal')` | [section 7](02_different_plot_types.ipynb) |
+| `labels=` | names next to each slice - or use `plt.legend(names)`, not both | `plt.pie(freqs, labels=names)` | [section 8](02_different_plot_types.ipynb) |
+| `autopct=` | % share written on each slice - format codes like R's `sprintf` | `autopct='%0.1f%%'` -> `69.2%` | [section 8](02_different_plot_types.ipynb) |
+| `plt.hist(data)` | histogram - how many values fall in each equal-width bin (10 by default) | `plt.hist(sales['hour'])` | [section 9](02_different_plot_types.ipynb) |
+| `bins=` | number of bins - more bins = more detail, but more noise | `plt.hist(data, bins=24)` | [sections 9, 10](02_different_plot_types.ipynb) |
+| `range=(min, max)` | only bins values inside this window - use the same one for histograms you compare | `plt.hist(data, range=(7, 19))` | [sections 9, 10](02_different_plot_types.ipynb) |
+| `.dt.hour` / `.dt.minute` | parts of a datetime column (R: `lubridate::hour()`) | `t.dt.hour + t.dt.minute / 60` | [section 9](02_different_plot_types.ipynb) |
+| `histtype='step'` | histogram outline only, no fill | `plt.hist(a, histtype='step')` | [section 10](02_different_plot_types.ipynb) |
+| `density=True` | scales a histogram so its area = 1 - compares shapes of groups with different sizes | `plt.hist(a, density=True)` | [section 10](02_different_plot_types.ipynb) |
+
+Quiz questions I got wrong: [section 11](02_different_plot_types.ipynb).

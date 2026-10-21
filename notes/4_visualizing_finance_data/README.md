@@ -44,3 +44,16 @@ plt.show()                       # 4. display it
 **`plt.subplots_adjust(...)`** - margins and gaps
 
 ![](charts/guide_subplots_adjust.png)
+
+## 02 - Different Plot Types
+
+Notebook: [02_different_plot_types.ipynb](02_different_plot_types.ipynb)
+
+| | |
+|---|---|
+| **Simple bar** - `plt.bar(range(len(sales)), sales)`<br>![](charts/02_01_simple_bar.png) | **Bar labels** - `ax.set_xticks` / `set_xticklabels(drinks)`<br>![](charts/02_02_bar_labels.png) |
+| **Side-by-side bars** - x positions `[t*element + w*n for element in range(d)]`<br>![](charts/02_03_side_by_side.png) | **Stacked bars** - `bottom=sales1`: the dataset in `bottom=` is the one underneath<br>![](charts/02_04_stacked_bars.png) |
+| **Error bars** - `yerr=error, capsize=5`<br>![](charts/02_05_error_bars.png) | **Fill between** - `plt.fill_between(months, y_lower, y_upper, alpha=0.2)`, band first, line on top<br>![](charts/02_06_fill_between.png) |
+| **Mistake: line drawn twice** - the second (orange) line hides the first<br>![](charts/02_06b_mistake_line_drawn_twice.png) | **Pie chart** - `plt.pie(freqs)` + `plt.axis('equal')`<br>![](charts/02_07_pie.png) |
+| **Pie labels** - legend + `autopct='%0.1f%%'`<br>![](charts/02_08_pie_labels.png) | **Mistake: names twice, no %** - `labels=` and a legend, `autopct='%0.1f'`<br>![](charts/02_08b_mistake_double_labels.png) |
+| **Histogram** - default 10 bins vs `range=(7, 19), bins=24`<br>![](charts/02_09_histogram.png) | **Multiple histograms** - raw counts vs `density=True`<br>![](charts/02_10_multiple_histograms.png) |
