@@ -2,8 +2,24 @@
 
 Cheat sheet for the whole track: every function and keyword, what it does, a short example, and where it's explained in full. The section links open the notebook; scroll to that section number.
 
+- [plt. style vs ax. style](#plt-style-vs-ax-style)
 - [01 - Matplotlib basics](#01---matplotlib-basics)
 - [02 - Different plot types](#02---different-plot-types)
+
+---
+
+## plt. style vs ax. style
+
+Every command can go through `plt.` or through an `ax` object (`ax = plt.subplot()`). With `ax`, every command says *which* chart it changes - that's how most professional code looks, and it matters as soon as there are subplots. The only catch - some names differ:
+
+| `plt.` style | `ax.` style |
+|---|---|
+| `plt.title()` | `ax.set_title()` |
+| `plt.xlabel()` / `plt.ylabel()` | `ax.set_xlabel()` / `ax.set_ylabel()` |
+| `plt.axis([...])` | `ax.set_xlim()` / `ax.set_ylim()` |
+| `plt.bar()`, `plt.legend()` | `ax.bar()`, `ax.legend()` (same names) |
+
+Example: [project, task 2](02_project_recreate_graphs.ipynb).
 
 ---
 
