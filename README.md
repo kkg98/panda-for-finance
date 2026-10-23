@@ -10,7 +10,7 @@ Coming from an R / RStudio background, I document every concept as runnable Pyth
 | 1 | Introduction to Python | Done |
 | 2 | Introduction to NumPy | Done |
 | 3 | Introduction to Pandas (incl. importing finance data) | Done |
-| 4 | Visualizing Finance Data (Matplotlib, portfolio optimization) | In progress |
+| 4 | Visualizing Finance Data (Matplotlib, portfolio optimization) | In progress - Matplotlib done, portfolio optimization in progress |
 | 5 | Regression | Planned |
 | 6 | Capstone | Planned |
 
@@ -25,12 +25,15 @@ Coming from an R / RStudio background, I document every concept as runnable Pyth
 
 ```
 notes/
-├── 1_python/                    core concepts: returns, risk, variance
-├── 2_numpy/                     arrays and element-wise operations
-├── 3_pandas/                    DataFrames, aggregates, importing finance data
-└── 4_visualizing_finance_data/  Matplotlib, portfolio optimization
-data/                            CSV files used by the notes
+├── 1_python/                      core concepts: returns, risk, variance
+├── 2_numpy/                       arrays and element-wise operations
+├── 3_pandas/                      DataFrames, aggregates, importing finance data
+├── 4_visualizing_finance_data/    Matplotlib: line, bar, pie charts, histograms
+└── 5_mean_variance_optimization/  expected returns, covariance, efficient frontier
+data/                              CSV files used by the notes
 ```
+
+**Folder numbers follow topics, not Codecademy's track numbers.** Portfolio optimization belongs to Codecademy's Visualizing Finance Data track, but it has its own folder (`5_...`), so Regression will be `6_...`.
 
 **File naming:** `<module>_<type>_<topic>.py`. The number is the module within its track; `practice` and `project` files share the number of the lesson they belong to, e.g. `04_aggregates.py`, `04_practice_aggregates_orders.py`, `04_project_ab_test_shoefly.py`.
 
@@ -48,8 +51,10 @@ Each notes file is a runnable script:
 ## Setup
 
 ```
-py -m pip install pandas numpy matplotlib pandas-datareader ipykernel
+py -m pip install pandas numpy matplotlib pandas-datareader ipykernel cvxopt
 ```
+
+`cvxopt` is the optimizer used for the efficient frontier in `5_mean_variance_optimization`.
 
 On Python 3.12+, if `pandas-datareader` fails with a `distutils` error, run `py -m pip install setuptools` and install it again.
 
@@ -63,4 +68,4 @@ Some notes pull live data from FRED and the World Bank and need an internet conn
 
 ## Tools
 
-Python 3.14 · pandas · NumPy · Matplotlib · pandas-datareader · VS Code · Git
+Python 3.14 · pandas · NumPy · Matplotlib · pandas-datareader · cvxopt · VS Code · Git
