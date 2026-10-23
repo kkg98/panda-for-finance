@@ -35,5 +35,11 @@ Notebook: [01_mean_variance_optimization.ipynb](01_mean_variance_optimization.ip
 | quadratic programming (`solvers.qp`) | optimizer: minimise risk - return under constraints (weights >= 0, sum = 1) | `solvers.qp(mu*S, -pbar, G, h, A, b)` | [section 8](01_mean_variance_optimization.ipynb) |
 | `'y-o'` | format string: colour + line + marker (yellow, solid, circles) | `plt.plot(x, y, 'y-o')` | [section 8](01_mean_variance_optimization.ipynb) |
 | `try / except: pass` | runs code, silently ignores errors - hides bugs | `try: plt.plot(...) except: pass` | [section 8](01_mean_variance_optimization.ipynb) |
+| `np.diagonal(matrix)` | the values on the diagonal - here the variances of each stock | `np.sqrt(np.diagonal(cov))` | [section 9](01_mean_variance_optimization.ipynb) |
+| `marker='X', s=200` | scatter marker shape and size | `plt.scatter(x, y, marker='X', s=200)` | [section 9](01_mean_variance_optimization.ipynb) |
+| `.iloc[-1]` | last item by position (safer than `[-1]` on a Series with a named index) | `expected_returns.iloc[-1]` | [section 9](01_mean_variance_optimization.ipynb) |
+| diversification | uncorrelated assets cancel swings: risk falls with more assets, down to the market-risk floor | `sigma / np.sqrt(n)` (rho = 0) | [section 9](01_mean_variance_optimization.ipynb) |
+| `'k-o'` | black line with circles (`k` = black; `b` would be blue) | `plt.plot(risks, returns, 'k-o')` | [section 10](01_mean_variance_optimization.ipynb) |
+| `df.loc[rows, column]` | select by labels: these rows, this column | `corr.loc[six, 'Dexcom']` | [section 10](01_mean_variance_optimization.ipynb) |
 | `enumerate(list, start=1)` | loop with a counter - e.g. the subplot index | `for i, pair in enumerate(pairs, start=1):` | [section 4](01_mean_variance_optimization.ipynb) |
 | `'{:.2%}'` / `f'{x:.2%}'` | decimal shown as a percentage - multiplies by 100 and adds % (`'{:.2f}%'` doesn't) | `f'{0.01528:.2%}'` -> `1.53%` | [section 3](01_mean_variance_optimization.ipynb) |

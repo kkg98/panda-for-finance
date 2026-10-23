@@ -25,3 +25,15 @@ Open [01_mean_variance_optimization.ipynb](01_mean_variance_optimization.ipynb) 
 **Efficient frontier** - `optimal_portfolio()`, yellow line on the top-left edge
 
 ![](charts/01_08_efficient_frontier.png)
+
+**Adding Nvidia** - green frontier reaches higher, never worse than yellow
+
+![](charts/01_09_frontier_with_nvidia.png)
+
+**Risk vs number of assets** - falls with every asset, levels off at a floor when assets are correlated
+
+![](charts/01_09b_risk_vs_number_of_assets.png)
+
+| | |
+|---|---|
+| **Adding Dexcom** - black frontier above and left of yellow and green<br>![](charts/01_10_frontier_with_dexcom.png) | **Nvidia vs Dexcom correlations** - Dexcom barely moves with the portfolio<br>![](charts/01_10b_nvidia_vs_dexcom_correlation.png) |
