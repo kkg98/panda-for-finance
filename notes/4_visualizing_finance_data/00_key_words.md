@@ -85,5 +85,12 @@ Notebook: [02_different_plot_types.ipynb](02_different_plot_types.ipynb) - proje
 | `ax.set_xlim` / `set_ylim` | `ax.` version of `plt.axis([...])` | `ax.set_ylim(0, 100)` | [project, task 2](02_project_recreate_graphs.ipynb) |
 | `zip(a, b)` | pairs two lists element by element | `[(a+b)/2 for a, b in zip(xa, xb)]` | [project, task 2](02_project_recreate_graphs.ipynb) |
 | named arguments | `name=value` in a call - any order, explains itself | `create_x(t=2, w=0.8, n=1, d=5)` | [project, task 2](02_project_recreate_graphs.ipynb) |
+| `np.add(a, b)` | adds two lists element by element (`+` on lists glues them together) | `c_bottom = np.add(As, Bs)` | [project, task 3](02_project_recreate_graphs.ipynb) |
+| `np.zeros(n)` | NumPy array of n zeros - a starting value to add onto | `bottom = np.zeros(5)` | [project, task 3](02_project_recreate_graphs.ipynb) |
+| `label=` + `plt.legend()` | name each plot as you draw it - the legend needs no list | `plt.bar(x, As, label='A')` | [project, task 3](02_project_recreate_graphs.ipynb) |
+| `linewidth=` | thickness of a line or outline | `plt.hist(a, histtype='step', linewidth=2)` | [project, task 4](02_project_recreate_graphs.ipynb) |
+| `'%.0f%%'` vs `'%d%%'` | `%.0f` rounds to a whole number, `%d` just cuts off the decimals (66.7 -> 66) | `autopct='%.0f%%'` -> `67%` | [project, task 5](02_project_recreate_graphs.ipynb) |
+| `plt.scatter(x, y)` | dots only - for relationships between two variables, where a line would invent a path | `plt.scatter(hours, scores)` | [project, task 6](02_project_recreate_graphs.ipynb) |
+| `np.polyfit(x, y, 1)` | best-fitting straight line - returns slope and intercept (preview of Regression) | `slope, intercept = np.polyfit(hours, scores, 1)` | [project, task 6](02_project_recreate_graphs.ipynb) |
 
 Quiz questions I got wrong: [section 11](02_different_plot_types.ipynb).

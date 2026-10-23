@@ -57,3 +57,16 @@ Notebook: [02_different_plot_types.ipynb](02_different_plot_types.ipynb)
 | **Mistake: line drawn twice** - the second (orange) line hides the first<br>![](charts/02_06b_mistake_line_drawn_twice.png) | **Pie chart** - `plt.pie(freqs)` + `plt.axis('equal')`<br>![](charts/02_07_pie.png) |
 | **Pie labels** - legend + `autopct='%0.1f%%'`<br>![](charts/02_08_pie_labels.png) | **Mistake: names twice, no %** - `labels=` and a legend, `autopct='%0.1f'`<br>![](charts/02_08b_mistake_double_labels.png) |
 | **Histogram** - default 10 bins vs `range=(7, 19), bins=24`<br>![](charts/02_09_histogram.png) | **Multiple histograms** - raw counts vs `density=True`<br>![](charts/02_10_multiple_histograms.png) |
+
+### Project: Recreate Graphs using Matplotlib
+
+[02_project_recreate_graphs.ipynb](02_project_recreate_graphs.ipynb) - a math teacher's class results, rebuilt chart by chart: error bars, side-by-side and stacked bars, two histograms, a labeled pie and a shaded error band.
+
+| | |
+|---|---|
+| **1. Bar chart with error** - `yerr=error, capsize=5`, y-axis cut at 70<br>![](charts/recreate_01_bar_chart_error.png) | **Cut-off vs honest axis** - same data, y from 70 vs from 0<br>![](charts/recreate_01b_truncated_vs_honest.png) |
+| **2. Side-by-side bars** - `create_x`, ticks at `middle_x`, all in `ax.` style<br>![](charts/recreate_02_side_by_side.png) | **3. Stacked bars** - five layers, bottoms with `np.add`<br>![](charts/recreate_03_stacked_bars.png) |
+| **Faster way: one loop** - `bottom = bottom + grades`, `label=` per layer<br>![](charts/recreate_03b_stacked_bars_loop.png) | **4. Two histograms** - `density=True`, `histtype='step'`, each with its own bins<br>![](charts/recreate_04_two_histograms.png) |
+| **Same bins for both** - `range=(50, 100), bins=10`<br>![](charts/recreate_04b_two_histograms_same_bins.png) | **5. Labeled pie** - `labels=unit_topics, autopct='%.0f%%'`<br>![](charts/recreate_05_pie.png) |
+| **Mistake: names twice** - `labels=` and a legend, `%d` cuts off decimals<br>![](charts/recreate_05b_mistake_pie_double_labels.png) | **6. Line with shaded error** - line drawn before the band<br>![](charts/recreate_06_line_shaded_error.png) |
+| **Band first, line on top**<br>![](charts/recreate_06b_band_first.png) | **Scatter instead of line** - hours vs score, correlation 0.90<br>![](charts/recreate_06c_scatter_relationship.png) |
