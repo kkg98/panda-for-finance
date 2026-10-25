@@ -5,6 +5,7 @@ Cheat sheet for the whole track: every function and keyword, what it does, a sho
 - [plt. style vs ax. style](#plt-style-vs-ax-style)
 - [01 - Matplotlib basics](#01---matplotlib-basics)
 - [02 - Different plot types](#02---different-plot-types)
+- [03 - Visualizing Tech Stocks (project)](#03---visualizing-tech-stocks-project)
 
 ---
 
@@ -94,3 +95,18 @@ Notebook: [02_different_plot_types.ipynb](02_different_plot_types.ipynb) - proje
 | `np.polyfit(x, y, 1)` | best-fitting straight line - returns slope and intercept (preview of Regression) | `slope, intercept = np.polyfit(hours, scores, 1)` | [project, task 6](02_project_recreate_graphs.ipynb) |
 
 Quiz questions I got wrong: [section 11](02_different_plot_types.ipynb).
+
+---
+
+## 03 - Visualizing Tech Stocks (project)
+
+Notebook: [03_project_visualizing_tech_stocks.ipynb](03_project_visualizing_tech_stocks.ipynb)
+
+| keyword | what it does | example | explained in |
+|---|---|---|---|
+| `yf.download(symbols, start=, end=)` | download daily prices for several stocks from Yahoo Finance | `yf.download(['AAPL', 'MSFT'], start='2023-01-01', end='2023-07-01')` | [step 2](03_project_visualizing_tech_stocks.ipynb) |
+| `'Close'` in yfinance 1.x | already adjusted for dividends and splits - `'Adj Close'` only with `auto_adjust=False` | `stock_data.Close` | [step 2](03_project_visualizing_tech_stocks.ipynb) |
+| column order | yfinance sorts tickers alphabetically - take labels from `df.columns`, not a typed list | `print(list(stock_data.Close.columns))` | [step 2](03_project_visualizing_tech_stocks.ipynb) |
+| `df.to_csv(path)` | save a DataFrame as CSV - backup of downloaded data | `stock_data.Close.to_csv('../../data/tech_stocks_2023.csv')` | [step 2](03_project_visualizing_tech_stocks.ipynb) |
+| `plt.tight_layout()` | squeezes out extra margins, stops titles and labels of subplots overlapping | after all `plt.subplot(...)` calls | [step 5](03_project_visualizing_tech_stocks.ipynb) |
+| highlight one bar | list of colours built with a one-line if | `['red' if v == s.max() else 'blue' for v in s]` | [steps 6-8](03_project_visualizing_tech_stocks.ipynb) |

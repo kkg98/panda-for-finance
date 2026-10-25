@@ -70,3 +70,18 @@ Notebook: [02_different_plot_types.ipynb](02_different_plot_types.ipynb)
 | **Same bins for both** - `range=(50, 100), bins=10`<br>![](charts/recreate_04b_two_histograms_same_bins.png) | **5. Labeled pie** - `labels=unit_topics, autopct='%.0f%%'`<br>![](charts/recreate_05_pie.png) |
 | **Mistake: names twice** - `labels=` and a legend, `%d` cuts off decimals<br>![](charts/recreate_05b_mistake_pie_double_labels.png) | **6. Line with shaded error** - line drawn before the band<br>![](charts/recreate_06_line_shaded_error.png) |
 | **Band first, line on top**<br>![](charts/recreate_06b_band_first.png) | **Scatter instead of line** - hours vs score, correlation 0.90<br>![](charts/recreate_06c_scatter_relationship.png) |
+
+## 03 - Visualizing Tech Stocks (project)
+
+[03_project_visualizing_tech_stocks.ipynb](03_project_visualizing_tech_stocks.ipynb) - the five biggest tech stocks (AAPL, AMZN, GOOGL, META, MSFT), January-June 2023: prices, daily returns, mean, variance, standard deviation and correlation. Data: `yfinance`, backup in `data/tech_stocks_2023.csv`.
+
+| | |
+|---|---|
+| **Adjusted prices**<br>![](charts/03_project_01_prices.png) | **Daily returns** - `pct_change()`<br>![](charts/03_project_02_daily_returns.png) |
+| **Mean daily return** - red = highest<br>![](charts/03_project_04_mean_returns.png) | **Variance** - red = riskiest<br>![](charts/03_project_05_variance.png) |
+| **Standard deviation** - red = least volatile<br>![](charts/03_project_06_std.png) | **Correlation** - all positive: big tech moves together<br>![](charts/03_project_07_correlation.png) |
+
+**Daily returns per stock** - one subplot each, `plt.tight_layout()`
+
+![](charts/03_project_03_returns_subplots.png)
+
