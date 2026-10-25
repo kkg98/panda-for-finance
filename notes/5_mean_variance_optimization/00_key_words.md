@@ -8,7 +8,7 @@ Cheat sheet for the whole track: every function and keyword, what it does, a sho
 
 ## 01 - Mean-Variance Portfolio Optimization
 
-Notebook: [01_mean_variance_optimization.ipynb](01_mean_variance_optimization.ipynb)
+Notebook: [01_mean_variance_optimization.ipynb](01_mean_variance_optimization.ipynb) - project: [01_project_mean_variance_optimization.ipynb](01_project_mean_variance_optimization.ipynb)
 
 | keyword | what it does | example | explained in |
 |---|---|---|---|
@@ -43,3 +43,7 @@ Notebook: [01_mean_variance_optimization.ipynb](01_mean_variance_optimization.ip
 | `df.loc[rows, column]` | select by labels: these rows, this column | `corr.loc[six, 'Dexcom']` | [section 10](01_mean_variance_optimization.ipynb) |
 | `enumerate(list, start=1)` | loop with a counter - e.g. the subplot index | `for i, pair in enumerate(pairs, start=1):` | [section 4](01_mean_variance_optimization.ipynb) |
 | `'{:.2%}'` / `f'{x:.2%}'` | decimal shown as a percentage - multiplies by 100 and adds % (`'{:.2f}%'` doesn't) | `f'{0.01528:.2%}'` -> `1.53%` | [section 3](01_mean_variance_optimization.ipynb) |
+| `solvers.options['show_progress'] = False` | stop cvxopt printing its working for every optimization | after `from cvxopt import blas, solvers` | [project, step 7](01_project_mean_variance_optimization.ipynb) |
+| `.sort_values(ascending=False)` | sort highest first (default is smallest first); returns a new result | `returns.mean().sort_values(ascending=False)` | [project, step 13](01_project_mean_variance_optimization.ipynb) |
+| choosing assets for a frontier | highest return as anchor -> drop twins (corr ~0.7) -> add low-correlation diversifiers | JPM, M, VZ, CVS, KO | [project, step 13](01_project_mean_variance_optimization.ipynb) |
+| notebook hidden state | variables keep the value from the last cell you ran, not the cell above - use Restart -> Run All | `risks` overwritten by a later cell | [project, step 12](01_project_mean_variance_optimization.ipynb) |

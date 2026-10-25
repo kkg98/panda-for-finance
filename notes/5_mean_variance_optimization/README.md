@@ -37,3 +37,17 @@ Open [01_mean_variance_optimization.ipynb](01_mean_variance_optimization.ipynb) 
 | | |
 |---|---|
 | **Adding Dexcom** - black frontier above and left of yellow and green<br>![](charts/01_10_frontier_with_dexcom.png) | **Nvidia vs Dexcom correlations** - Dexcom barely moves with the portfolio<br>![](charts/01_10b_nvidia_vs_dexcom_correlation.png) |
+
+### Project: Mean Variance Optimization
+
+[01_project_mean_variance_optimization.ipynb](01_project_mean_variance_optimization.ipynb) - efficient frontiers for a weak portfolio, the effect of adding and removing assets, and picking the best 5 of 10 stocks.
+
+| | |
+|---|---|
+| **Random portfolios** - 5,000 random weights of the 5 weak stocks<br>![](charts/01_project_random_portfolios.png) | **Efficient frontier** - weak portfolio<br>![](charts/01_project_efficient_frontier.png) |
+| **Weak vs strong** - dropping GE and Chesapeake changes nothing (yellow = black)<br>![](charts/01_project_weak_vs_strong.png) | **Correlation heatmap** - the basis for choosing 5 of 10<br>![](charts/01_project_correlation_heatmap.png) |
+
+**My best five** - JPM, M, VZ, CVS, KO (yellow) vs all ten (green)
+
+![](charts/01_project_best_five.png)
+
