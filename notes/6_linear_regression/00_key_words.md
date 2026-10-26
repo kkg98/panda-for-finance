@@ -3,6 +3,7 @@
 Cheat sheet for the whole track: every function and keyword, what it does, a short example, and where it's explained in full. The section links open the notebook; scroll to that section number.
 
 - [01 - The Model](#01---the-model)
+- [01 - Beta of the S Fund (project)](#01---beta-of-the-s-fund-project)
 
 ---
 
@@ -36,3 +37,17 @@ Notebook: [01_the_model.ipynb](01_the_model.ipynb)
 | `.predict(X)` | fitted y-values for given x (R: `predict()`) | `line_fitter.predict(temperature)` | [section 9](01_the_model.ipynb) |
 | `.coef_` / `.intercept_` | learned slope(s) / intercept; `_` = set by `.fit()`; `coef_` is an array | `line_fitter.coef_[0]` | [section 9](01_the_model.ipynb) |
 | `.reshape(-1, 1)` | 1D array → one-column 2D array, which sklearn needs for X | `temperature.reshape(-1, 1)` | [section 9](01_the_model.ipynb) |
+
+## 01 - Beta of the S Fund (project)
+
+Notebook: [01_project_beta_capm.ipynb](01_project_beta_capm.ipynb)
+
+| keyword | what it does | example | explained in |
+|---|---|---|---|
+| `read_csv(sep='\t', index_col=0, parse_dates=True)` | read a tab-separated file; first column → index, parsed as dates | `pd.read_csv("../../data/tsp_data.csv", sep='\t', index_col=0, parse_dates=True)` | [project](01_project_beta_capm.ipynb) |
+| `.pct_change().dropna()` | daily returns from prices; `dropna()` removes the empty first row (needs `()`) | `returns = data.pct_change().dropna()` | [project](01_project_beta_capm.ipynb) |
+| `df[['col']]` vs `df['col']` | `[[ ]]` → one-column DataFrame (2D, sklearn's X); `[ ]` → Series (1D, y) | `fit(returns[['C Fund']], returns['S Fund'])` | [project](01_project_beta_capm.ipynb) |
+| `.shape` | dimensions: `(169,)` = 1D, `(169, 1)` = 2D | `returns[['C Fund']].shape` | [project](01_project_beta_capm.ipynb) |
+| `.score(X, y)` | R² of a fitted regression model | `line_fitter.score(X, y)` | [project](01_project_beta_capm.ipynb) |
+| beta (CAPM) | slope of fund returns on market returns = `coef_[0]` | `β = 1.09` (S Fund vs C Fund) | [project](01_project_beta_capm.ipynb) |
+| f-string | insert values into text; `:.2f` = 2 decimals | `f"β = {beta:.2f}"` | [project](01_project_beta_capm.ipynb) |
