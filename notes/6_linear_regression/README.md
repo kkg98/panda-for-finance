@@ -19,3 +19,11 @@ Key words for the whole track: [00_key_words.md](00_key_words.md).
 | |
 |---|
 | **Beta of the S Fund** - slope of the fitted line = β<br>![](charts/beta_01_s_fund.png) |
+
+### Project: Honey Production
+
+[02_project_honey_production.ipynb](02_project_honey_production.ipynb): mean US honey production per state, 1998–2012, with a linear trend from sklearn `LinearRegression`, extrapolated to 2050. m ≈ −88,303 lbs/year, R² ≈ 0.58. Prediction for 2050: 186,545 lbs per state (−96% vs 1998), with the caveats of a 38-year extrapolation.
+
+| | |
+|---|---|
+| **Linear trend, 1998–2012** - `regr.fit(X, y)`<br>![](charts/honey_01_fit.png) | **Forecast to 2050** - `regr.predict(X_future)`<br>![](charts/honey_02_forecast_2050.png) |

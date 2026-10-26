@@ -32,7 +32,7 @@ notes/
 ├── 3_pandas/                      DataFrames, aggregates, importing finance data
 ├── 4_visualizing_finance_data/    Matplotlib: line, bar, pie charts, histograms, tech stocks project
 ├── 5_mean_variance_optimization/  expected returns, covariance, efficient frontier
-└── 6_linear_regression/           slope and intercept, loss, gradient descent
+└── 6_linear_regression/           slope and intercept, loss, gradient descent, scikit-learn; beta (CAPM) and honey production projects
 data/                              CSV files used by the notes
 ```
 

@@ -4,6 +4,7 @@ Cheat sheet for the whole track: every function and keyword, what it does, a sho
 
 - [01 - The Model](#01---the-model)
 - [01 - Beta of the S Fund (project)](#01---beta-of-the-s-fund-project)
+- [02 - Honey Production (project)](#02---honey-production-project)
 
 ---
 
@@ -51,3 +52,16 @@ Notebook: [01_project_beta_capm.ipynb](01_project_beta_capm.ipynb)
 | `.score(X, y)` | R² of a fitted regression model | `line_fitter.score(X, y)` | [project](01_project_beta_capm.ipynb) |
 | beta (CAPM) | slope of fund returns on market returns = `coef_[0]` | `β = 1.09` (S Fund vs C Fund) | [project](01_project_beta_capm.ipynb) |
 | f-string | insert values into text; `:.2f` = 2 decimals | `f"β = {beta:.2f}"` | [project](01_project_beta_capm.ipynb) |
+
+## 02 - Honey Production (project)
+
+Notebook: [02_project_honey_production.ipynb](02_project_honey_production.ipynb)
+
+| keyword | what it does | example | explained in |
+|---|---|---|---|
+| `.reset_index()` | turns the index (e.g. after `groupby`) back into a normal column | `df.groupby('year').totalprod.mean().reset_index()` | [project](02_project_honey_production.ipynb) |
+| `.values` | pandas column → NumPy array (which has `.reshape()`) | `X.values.reshape(-1, 1)` | [project](02_project_honey_production.ipynb) |
+| `linear_model.LinearRegression()` | same model, when you import the module instead of the class | `from sklearn import linear_model` | [project](02_project_honey_production.ipynb) |
+| `regr.predict([[2050]])[0]` | predict a single x; `[[ ]]` = 2D, `[0]` = first value | `regr.predict([[2050]])[0]` | [project](02_project_honey_production.ipynb) |
+| `arr[-1]` | last element | `future_predict[-1]` | [project](02_project_honey_production.ipynb) |
+| `f"{x:,.0f}"` | number with thousands separator, 0 decimals | `f"{186545.34:,.0f}"` → `186,545` | [project](02_project_honey_production.ipynb) |
