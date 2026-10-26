@@ -11,13 +11,15 @@ Coming from an R / RStudio background, I document every concept as runnable Pyth
 | 2 | Introduction to NumPy | Done |
 | 3 | Introduction to Pandas (incl. importing finance data) | Done |
 | 4 | Visualizing Finance Data (Matplotlib, portfolio optimization) | Done |
-| 5 | Regression | In progress |
-| 6 | Capstone | Planned |
+| 5 | Regression | Done |
+| 6 | Capstone | In progress |
 
 ## Highlights
 
 | Project | What it does |
 |---------|--------------|
+| [Beta of the S Fund (CAPM)](notes/6_linear_regression/01_project_beta_capm.ipynb) | Regresses US small-cap daily returns (TSP S Fund) on the S&P 500 (C Fund) with scikit-learn: β ≈ 1.09, α ≈ −0.02%/day, R² ≈ 0.87. Replaces the course's Boston housing starter, whose `load_boston` was removed from scikit-learn 1.2. |
+| [Honey Production](notes/6_linear_regression/02_project_honey_production.ipynb) | Linear trend of US honey production 1998–2012 with scikit-learn, extrapolated to 2050 (186,545 lbs per state, −96% vs 1998), with the caveats the course skips: R² of only 0.58, a changing set of states, and the risk of a 38-year extrapolation. |
 | [Mean-Variance Optimization](notes/5_mean_variance_optimization/01_project_mean_variance_optimization.ipynb) | Efficient frontiers with `cvxopt`, the effect of adding and removing assets, and picking the best 5 of 10 stocks - my pick (JPM, M, VZ, CVS, KO) reaches a lower minimum risk than the course solution. |
 | [Visualizing Tech Stocks](notes/4_visualizing_finance_data/03_project_visualizing_tech_stocks.ipynb) | AAPL, AMZN, GOOGL, META, MSFT in H1 2023 via `yfinance`: prices, daily returns, volatility and correlation, with a CSV backup of the data. |
 | [US Financial Health 1999-2019](notes/3_pandas/05_project_us_financial_health.py) | Pulls stock indexes (FRED), commodities (CSV) and GDP / exports (World Bank), computes log returns and compares volatility across assets. Includes fixes the course skips: sorting newest-first data before `shift()`, and annualizing daily volatility so daily and yearly series can be compared. |
