@@ -54,10 +54,10 @@ Each notes file is a runnable script:
 ## Setup
 
 ```
-py -m pip install pandas numpy matplotlib pandas-datareader ipykernel cvxopt yfinance
+py -m pip install pandas numpy matplotlib pandas-datareader ipykernel cvxopt yfinance scikit-learn
 ```
 
-`cvxopt` is the optimizer used for the efficient frontier in `5_mean_variance_optimization`. `yfinance` downloads the stock prices for the Visualizing Tech Stocks project.
+`cvxopt` is the optimizer used for the efficient frontier in `5_mean_variance_optimization`. `yfinance` downloads the stock prices for the Visualizing Tech Stocks project. `scikit-learn` (imported as `sklearn`) fits the regression models in `6_linear_regression`.
 
 On Python 3.12+, if `pandas-datareader` fails with a `distutils` error, run `py -m pip install setuptools` and install it again.
 

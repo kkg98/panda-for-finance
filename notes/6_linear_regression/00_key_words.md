@@ -31,3 +31,8 @@ Notebook: [01_the_model.ipynb](01_the_model.ipynb)
 | keyword arguments | pass by name, so order doesn't matter (like R's named args) | `get_gradient_at_b(x, y, m=m, b=b)` | [section 5](01_the_model.ipynb) |
 | unpacking | assign a returned list to several variables in order | `b, m = [2.355, 17.78]` | [section 5](01_the_model.ipynb) |
 | `gradient_descent()` | loop `step_gradient` n times, reassigning `b, m` each pass → returns the fitted `b, m` | `b, m = gradient_descent(months, revenue, 0.01, 1000)` | [section 7](01_the_model.ipynb) |
+| `LinearRegression()` | sklearn's linear regression model: create → `.fit()` → `.predict()` | `line_fitter = LinearRegression()` | [section 9](01_the_model.ipynb) |
+| `.fit(X, y)` | train the model on the data (R: `lm(y ~ x)`) | `line_fitter.fit(temperature, sales)` | [section 9](01_the_model.ipynb) |
+| `.predict(X)` | fitted y-values for given x (R: `predict()`) | `line_fitter.predict(temperature)` | [section 9](01_the_model.ipynb) |
+| `.coef_` / `.intercept_` | learned slope(s) / intercept; `_` = set by `.fit()`; `coef_` is an array | `line_fitter.coef_[0]` | [section 9](01_the_model.ipynb) |
+| `.reshape(-1, 1)` | 1D array → one-column 2D array, which sklearn needs for X | `temperature.reshape(-1, 1)` | [section 9](01_the_model.ipynb) |

@@ -9,3 +9,5 @@ Key words for the whole track: [00_key_words.md](00_key_words.md).
 | |
 |---|
 | **Gradient descent fit** - `gradient_descent(months, revenue, 0.01, 1000)` → b ≈ 49.6, m ≈ 10.5<br>![](charts/07_gradient_descent_fit.png) |
+| **Real data: height vs weight** - α = 0.0001 looks fine but hasn't converged (b ≈ 0 vs OLS −106)<br>![](charts/08_heights_gradient_descent.png) |
+| **sklearn `LinearRegression`** - soup sales vs temperature (m ≈ −1.15)<br>![](charts/09_sklearn_soup_sales.png) |
