@@ -30,3 +30,4 @@ Notebook: [01_the_model.ipynb](01_the_model.ipynb)
 | `step_gradient()` | one step: get both gradients, move `b` and `m` downhill | `b, m = step_gradient(months, revenue, b, m)` | [section 5](01_the_model.ipynb) |
 | keyword arguments | pass by name, so order doesn't matter (like R's named args) | `get_gradient_at_b(x, y, m=m, b=b)` | [section 5](01_the_model.ipynb) |
 | unpacking | assign a returned list to several variables in order | `b, m = [2.355, 17.78]` | [section 5](01_the_model.ipynb) |
+| `gradient_descent()` | loop `step_gradient` n times, reassigning `b, m` each pass → returns the fitted `b, m` | `b, m = gradient_descent(months, revenue, 0.01, 1000)` | [section 7](01_the_model.ipynb) |

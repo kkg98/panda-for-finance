@@ -6,4 +6,6 @@ Key words for the whole track: [00_key_words.md](00_key_words.md).
 
 ## 01 - The Model
 
-Charts will be added as the lesson goes on.
+| |
+|---|
+| **Gradient descent fit** - `gradient_descent(months, revenue, 0.01, 1000)` → b ≈ 49.6, m ≈ 10.5<br>![](charts/07_gradient_descent_fit.png) |
